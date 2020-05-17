@@ -53,7 +53,6 @@ class yaMarketTest extends TestBase {
         $("#header-search").val("Alienware 15 R3").pressEnter();
         // if contains then 1st part of test is successfull
         $("h1").shouldHave(attribute("title", "Ноутбуки"));
-//      $("h3").$("a").$(withText("Alienware 15 R3"), 0).click();
         // вот это шикарный способ -- проваливаться до последнего потомка
         $(byClassName("n-snippet-card2__title")).lastChild().click();
         System.out.println("Should be switched to new tab");
