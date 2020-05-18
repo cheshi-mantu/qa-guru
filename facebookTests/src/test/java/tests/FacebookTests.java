@@ -18,6 +18,10 @@ import static helpers.Environment.*;
 @Tag("facebook")
 class FacebookTests extends TestBase {
 // all stuff that starts with @ is from JUnit - platform for tests
+//    how to start the test from command line:
+//    gradle facebook_tests -Durl=http://facebook.com -Demail=cheshi.mantu@gmail.com -Dpassword=”fuckoff”
+//    gradle - builder which runs all the stuff
+//    facebook_tests is task from build.gradle it will select needed tasks by tag "@Test" used by JUnit and tag @Tag("facebook"), see above
     @Test
     @Description("Positive test with testid")
     void successfulLoginWithTestId() {
