@@ -22,7 +22,9 @@ class FacebookTests extends TestBase {
     @Description("Positive test with testid")
     void successfulLoginWithTestId() {
         Configuration.browser = "opera";
-        open("http://facebook.com");
+//        we'll use systemProperty "url" defined in helpers.Environment instead of using hardcoded string with web-site address
+//        open("http://facebook.com");
+        open(url);
 
         $(by("data-testid", "royal_email")).setValue("cheshi.mantu@gmail.com"); // Do not store private data in code!
 //        $("#email").setValue("cheshi.mantu@gmail.com");

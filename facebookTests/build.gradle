@@ -61,6 +61,10 @@ dependencies {
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
+//this is added to pass the system properties received from the command line when invoking gradle with tests
+tasks.withType(Test) {
+    systemProperties = System.properties
+}
 
 task facebook_tests(type: Test) {
     useJUnitPlatform {
