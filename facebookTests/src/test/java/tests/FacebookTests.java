@@ -25,14 +25,14 @@ class FacebookTests extends TestBase {
 //        we'll use systemProperty "url" defined in helpers.Environment instead of using hardcoded string with web-site address
 //        open("http://facebook.com");
         open(url);
-
-        $(by("data-testid", "royal_email")).setValue("cheshi.mantu@gmail.com"); // Do not store private data in code!
-//        $("#email").setValue("cheshi.mantu@gmail.com");
-//        $(byId("email")).setValue("cheshi.mantu@gmail.com");
-//        $(".inputtext.login_form_input_box").setValue("cheshi.mantu@gmail.com");
-//        $(".login_form_input_box").setValue("cheshi.mantu@gmail.com");
-
-        $(by("data-testid", "royal_pass")).setValue("j3qq4h7h2v2hch4");
+//        we'll use systemProperty "email" defined in helpers.Environment instead of using hardcoded string with email address
+        $(by("data-testid", "royal_email")).setValue(email); // Do not store private data in code!
+//        $("#email").setValue(email);
+//        $(byId("email")).setValue(email);
+//        $(".inputtext.login_form_input_box").setValue(email);
+//        $(".login_form_input_box").setValue(email);
+//        we'll use systemProperty "password" defined in helpers.Environment instead of using hardcoded string with password
+        $(by("data-testid", "royal_pass")).setValue(password);
         $(by("data-testid", "royal_login_button")).click();
 //        $(byText("Вход")).click();
 
