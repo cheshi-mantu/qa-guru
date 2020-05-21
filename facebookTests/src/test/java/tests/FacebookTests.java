@@ -1,17 +1,20 @@
 package tests;
 
 import com.codeborne.selenide.Configuration;
+import com.codeborne.selenide.SelenideWait;
 import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Story;
 import org.junit.jupiter.api.*;
-//import pages.FacebookPage;
+import pages.FacebookPage;
+
 
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selectors.*;
 import static com.codeborne.selenide.Selenide.*;
 
 import static helpers.Environment.*;
+
 
 @Epic("QA.GURU automation course")
 @Story("Facebook tests")
@@ -23,7 +26,7 @@ class FacebookTests extends TestBase {
 //    gradle - builder which runs all the stuff
 //    facebook_tests is task from build.gradle it will select needed tasks by tag "@Test" used by JUnit and tag @Tag("facebook"), see above
     @Test
-    @Description("Positive test with testid")
+    @Description("Positive test with data-testid")
     void successfulLoginWithTestId() {
         Configuration.browser = "opera";
 //        we'll use systemProperty "url" defined in helpers.Environment instead of using hardcoded string with web-site address
@@ -40,21 +43,24 @@ class FacebookTests extends TestBase {
         $(by("data-testid", "royal_login_button")).click();
 //        $(byText("Вход")).click();
 
-        $("html").shouldHave(text("Cheshi"));
+        $(by("data-testid", "left_nav_item_Cheshi Mantu")).shouldHave(text("Cheshi Mantu"));
 //      $("html").shouldHave(text("Cheshi"), text("Mantu"));
     }
 
-//    @Test
-//    @Description("Test with PageObject")
-//    void unsuccessfulLoginWithPageObject() {
-//        Configuration.browser = "opera";
-//        FacebookPage facebookPage = new FacebookPage();
-//
-//        open("http://facebook.com");
-//
-//        facebookPage.typeEmail("cheshi.mantu@gmail.com");
-//        facebookPage.typePassword("testpassword#&!");
-//        facebookPage.clickSubmit();
-//        facebookPage.verifyLoggedInAsUser("Qa", "Guru");
-//    }
+    @Test
+    @Description("Successfull Facebook Test with PageObject and Env")
+    void successfulLoginWithPageObject() {
+        Configuration.browser = "opera";
+        FacebookPage facebookPage = new FacebookPage();
+
+        open(url);
+
+        facebookPage.typeEmail(email);
+
+        facebookPage.typePassword(password);
+
+        facebookPage.clickSubmit();
+
+        facebookPage.verifyLoggedInAsUser("Cheshi");
+    }
 }
