@@ -8,3 +8,4 @@ public class Environment {
         email = System.getProperty("email", "cheshi.mantu@gmail.com"),
         password = System.getProperty("password", "doNotKeepYourPasswordHere");
 }
+

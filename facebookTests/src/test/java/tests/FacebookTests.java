@@ -41,7 +41,7 @@ class FacebookTests extends TestBase {
 //        $(byText("Вход")).click();
 
         $("html").shouldHave(text("Cheshi"));
-//        $("html").shouldHave(text("Cheshi"), text("Mantu"));
+//      $("html").shouldHave(text("Cheshi"), text("Mantu"));
     }
 
 //    @Test
