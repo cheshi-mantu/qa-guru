@@ -9,6 +9,7 @@ import org.junit.jupiter.api.*;
 import pages.FacebookPage;
 
 
+import static com.codeborne.selenide.Condition.disappear;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selectors.*;
 import static com.codeborne.selenide.Selenide.*;
@@ -63,4 +64,34 @@ class FacebookTests extends TestBase {
 
         facebookPage.verifyLoggedInAsUser("Cheshi");
     }
+    @Test
+    @Description("Test for user profile update")
+    void userProfileUpdate() {
+        Configuration.browser = "opera";
+        FacebookPage facebookPage = new FacebookPage();
+        open(url);
+        facebookPage.typeEmail(email);
+        facebookPage.typePassword(password);
+        facebookPage.clickSubmit();
+        facebookPage.verifyLoggedInAsUser("Cheshi");
+        // now we start to update user's profile
+        $(byText("Cheshi")).click();
+        $(byText("Edit Profile")).click();
+//        $("h3").shouldHave(text("Edit Profile"));
+        $(byText("Edit your about info")).click();
+        $(byText("Life Events")).click();
+        $("html").shouldHave(text("Add a life event"));
+        $(byText("Add a life event")).click();
+        $(byText("Relationship")).click();
+        $(byText("New Relationship")).click();
+        $(withText("Say something")).click();
+//      $(withText("Say something")).setValue("00223311");
+//      $(byTagName("span")).$(byAttribute("data-text", "true")).setValue("Мы покакунькали");
+        $(getFocusedElement()).setValue("112233445566");
+        $(byText("Share")).click();
+        $(byText("Share")).should(disappear);
+        $(byText("Timeline")).click();
+        $(byTagName("div")).$(byAttribute("role", "feed")).shouldHave(text("112233445566"));
+    }
+
 }
