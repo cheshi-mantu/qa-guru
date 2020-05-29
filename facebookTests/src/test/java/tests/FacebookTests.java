@@ -9,8 +9,7 @@ import org.junit.jupiter.api.*;
 import pages.FacebookPage;
 
 
-import static com.codeborne.selenide.Condition.disappear;
-import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selectors.*;
 import static com.codeborne.selenide.Selenide.*;
 
@@ -68,6 +67,12 @@ class FacebookTests extends TestBase {
     @Description("Test for user profile update")
     void userProfileUpdate() {
         Configuration.browser = "opera";
+//        Configuration.browser = "edge";
+//        Configuration.browser = "firefox";
+//        Configuration.browser = "opera";
+//        Configuration.browser = "opera";
+        Configuration.startMaximized = true;
+        //Configuration.browserSize = "1920x1080";
         FacebookPage facebookPage = new FacebookPage();
         open(url);
         facebookPage.typeEmail(email);
@@ -76,12 +81,14 @@ class FacebookTests extends TestBase {
         facebookPage.verifyLoggedInAsUser("Cheshi");
         // now we start to update user's profile
         $(byText("Cheshi")).click();
+        $(byText("Edit Profile")).should(exist);
         $(byText("Edit Profile")).click();
 //        $("h3").shouldHave(text("Edit Profile"));
         $(byText("Edit your about info")).click();
         $(byText("Life Events")).click();
         $("html").shouldHave(text("Add a life event"));
         $(byText("Add a life event")).click();
+        $(withText("Relationship")).shouldBe(visible);
         $(byText("Relationship")).click();
         $(byText("New Relationship")).click();
         $(withText("Say something")).click();
@@ -89,7 +96,8 @@ class FacebookTests extends TestBase {
 //      $(byTagName("span")).$(byAttribute("data-text", "true")).setValue("Мы покакунькали");
         $(getFocusedElement()).setValue("112233445566");
         $(byText("Share")).click();
-        $(byText("Share")).should(disappear);
+        sleep(1000);
+        $(byText("Timeline")).shouldBe(visible);
         $(byText("Timeline")).click();
         $(byTagName("div")).$(byAttribute("role", "feed")).shouldHave(text("112233445566"));
     }
