@@ -27,7 +27,7 @@ dependencies {
     compile 'io.qameta.allure:allure-java-commons:2.13.3'
     //next compile is needed to enable Selenide listener
     compile 'io.qameta.allure:allure-selenide:2.13.3'
-
+    //this moved to dependencies of whole project as it is needed under java folder
     compile 'com.codeborne:selenide:5.11.1'
 
     compile 'com.squareup.retrofit2:retrofit:2.9.0'
