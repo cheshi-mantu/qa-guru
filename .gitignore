@@ -22,6 +22,7 @@
 
 # txt files with secrets
 /**/*.secret
+*.secret
 
 # Project gen files
 .idea/
