@@ -20,6 +20,9 @@
 *.rar
 *.iml
 
+# txt files with secrets
+/**/*.secret
+
 # Project gen files
 .idea/
 .gradle/
