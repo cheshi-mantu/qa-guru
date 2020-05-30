@@ -30,7 +30,7 @@ public class GitHubIssueTestWithSteps {
     @Story("Check if issues do exist with steps")
     @DisplayName("Allure Example - issue must exists in github repository - with steps")
     public void testIssueExists() {
-        steps.openMainPage();
+        steps.openMainPage("cheshi-mantu");
         steps.searchForRepository("cheshi-mantu/qa-guru");
         steps.openRepositoryIssues();
         steps.shouldSeeIssueWithID(ISSUE_NUMBER);

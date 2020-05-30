@@ -7,15 +7,19 @@ import org.openqa.selenium.By;
 import static com.codeborne.selenide.Selectors.withText;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
+import static io.qameta.allure.Allure.parameter;
 
 public class BasicSteps {
 
 
-    public void openMainPage(){
+    public void openMainPage(String user){
+        parameter("user", user);
         open("https://github.com");
     }
     @Step("3. Open user's homepage with repo")
     public void searchForRepository(String name){
+        parameter("Repository", name);
+
         $(".header-search-input").click();
         $(".header-search-input").sendKeys(name);
         $(".header-search-input").submit();

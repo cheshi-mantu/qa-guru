@@ -2,20 +2,15 @@ package qa.guru.allure;
 
 public class Issue {
     private long id;
-
-
     private int number;
     private String title;
     private String body;
 
-    public long getNumber() {
-        return number;
-    }
+    public int getNumber() {  return number;    }
 
     public void setNumber(int number) {
         this.number = number;
     }
-
 
     public long getId() {
         return id;
