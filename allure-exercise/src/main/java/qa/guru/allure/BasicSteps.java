@@ -9,7 +9,8 @@ import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
 
 public class BasicSteps {
-    @Step("1. Open main page")
+
+
     public void openMainPage(){
         open("https://github.com");
     }
