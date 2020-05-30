@@ -3,14 +3,25 @@ package qa.guru.allure;
 import io.qameta.allure.Step;
 import io.qameta.allure.okhttp3.AllureOkHttp3;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiSteps {
     private GitHubClient github;
-
     public ApiSteps(){
+        String token = "";
+        final fileReadHelper txtFile = new fileReadHelper();
+        token = txtFile.getStringFromFile("D:\\code\\qa-guru\\allure-exercise\\github_oauth_token.secret");
+        final String finalToken = token;
+        System.out.println("Read token: " + finalToken);
         final OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor((chain) -> {
+                    final Request request = chain.request().newBuilder()
+                            .addHeader("Authorization", String.format("token %s", finalToken)).build();
+                    System.out.println("Request's headers: " + request.headers());
+                    return chain.proceed(request);
+        })
                 .addInterceptor(new AllureOkHttp3())
                 .build();
         final Retrofit retrofit = new Retrofit.Builder()
