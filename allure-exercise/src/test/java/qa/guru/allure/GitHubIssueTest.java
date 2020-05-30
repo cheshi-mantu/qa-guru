@@ -6,7 +6,9 @@ import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import io.qameta.allure.junit4.DisplayName;
+import io.qameta.allure.okhttp3.AllureOkHttp3;
 import io.qameta.allure.selenide.AllureSelenide;
+import okhttp3.OkHttpClient;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
@@ -33,11 +35,16 @@ public class GitHubIssueTest {
     public void initSelenideListener () {
         SelenideLogger.addListener("allure", new AllureSelenide().screenshots(true));
     }
+
     @Before
     public void initGitHubClient() {
+        final OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(new AllureOkHttp3())
+                .build();
         final Retrofit retrofit = new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
                 .baseUrl("https://api.github.com")
+                .client(client) // needed for integration with OkHttp3, i.e. we can listen the events
                 .build();
 
         github = retrofit.create(GitHubClient.class);
@@ -51,7 +58,9 @@ public class GitHubIssueTest {
     @Test
     @Story("Check if issues do exist")
     @DisplayName("Allure Example - issue must exists in github repository")
+
     public void testIssueExists() throws Exception {
+
         parameter("Issue number", ISSUE_NUMBER);
         parameter("Working with repository", REPOSITORY);
         parameter("user", USERNAME);
@@ -60,7 +69,6 @@ public class GitHubIssueTest {
         issue.setTitle("test issue creation");
         issue.setBody("the very test body");
         Issue created = github.createIssue("cheshi-mantu", "qa-guru", issue).execute().body();
-        System.out.println(created.getId());
 
 
         step("1. Open main page", () -> {
