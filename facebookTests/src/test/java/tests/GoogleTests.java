@@ -15,7 +15,7 @@ import pages.GooglePage;
 
 @Epic("QA.GURU automation course")
 @Story("Google tests")
-@Tag("google")
+@Tag("google_test")
 class GoogleTests extends TestBase {
 
     @Test

@@ -21,7 +21,7 @@ import static helpers.EnvironmentYM.*;
 
 @Epic("QA.GURU home worx")
 @Story("yandex tests")
-@Tag("yandex")
+@Tag("yandex_test")
 class yaMarketTest extends TestBase {
 
 //    @Test

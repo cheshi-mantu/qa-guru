@@ -2,9 +2,11 @@ package tests;
 
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.SelenideWait;
+import helpers.fileReadHelper;
 import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Story;
+import org.junit.Before;
 import org.junit.jupiter.api.*;
 import pages.FacebookPage;
 
@@ -16,10 +18,31 @@ import static com.codeborne.selenide.Selenide.*;
 import static helpers.Environment.*;
 
 
-@Epic("QA.GURU automation course")
+@Epic("QA.GURU QA automation course")
 @Story("Facebook tests")
-@Tag("facebook")
+@Tag("facebook_test")
 class FacebookTests extends TestBase {
+    private String finalEmail ="";
+    private String finalPassword = "";
+    @BeforeEach
+    void setFinalEmail() {
+        if (helpers.Environment.email == "empty_string_returned") {
+            final fileReadHelper txtEmail = new fileReadHelper();
+            finalEmail = txtEmail.getStringFromFile("D:\\code\\qa-guru\\facebookTests\\src\\test\\java\\tests\\facebookname.secret");
+        } else {
+            finalEmail = email;
+        }
+    }
+    @BeforeEach
+    void setFinalPassword(){
+        if (password == "empty_string_returned") {
+            final fileReadHelper txtPassword = new fileReadHelper();
+            finalPassword = txtPassword.getStringFromFile("D:\\code\\qa-guru\\facebookTests\\src\\test\\java\\tests\\facebookpassword.secret");
+        } else {
+            finalPassword = password;
+        }
+    }
+
 // all stuff that starts with @ is from JUnit - platform for tests
 //    how to start the test from command line:
 //    gradle facebook_tests -Durl=http://facebook.com -Demail=cheshi.mantu@gmail.com -Dpassword=”fuckoff”
@@ -28,18 +51,22 @@ class FacebookTests extends TestBase {
     @Test
     @Description("Positive test with data-testid")
     void successfulLoginWithTestId() {
+        System.out.println("Email: " + finalEmail);
+        System.out.println("Password: " + finalPassword);
+
         Configuration.browser = "opera";
 //        we'll use systemProperty "url" defined in helpers.Environment instead of using hardcoded string with web-site address
 //        open("http://facebook.com");
         open(url);
 //        we'll use systemProperty "email" defined in helpers.Environment instead of using hardcoded string with email address
-        $(by("data-testid", "royal_email")).setValue(email); // Do not store private data in code!
+
+        $(by("data-testid", "royal_email")).setValue(finalEmail); // Do not store private data in code!
 //        $("#email").setValue(email);
 //        $(byId("email")).setValue(email);
 //        $(".inputtext.login_form_input_box").setValue(email);
 //        $(".login_form_input_box").setValue(email);
 //        we'll use systemProperty "password" defined in helpers.Environment instead of using hardcoded string with password
-        $(by("data-testid", "royal_pass")).setValue(password);
+        $(by("data-testid", "royal_pass")).setValue(finalPassword);
         $(by("data-testid", "royal_login_button")).click();
 //        $(byText("Вход")).click();
 
@@ -55,9 +82,9 @@ class FacebookTests extends TestBase {
 
         open(url);
 
-        facebookPage.typeEmail(email);
+        facebookPage.typeEmail(finalEmail);
 
-        facebookPage.typePassword(password);
+        facebookPage.typePassword(finalPassword);
 
         facebookPage.clickSubmit();
 
@@ -72,16 +99,17 @@ class FacebookTests extends TestBase {
 //        Configuration.browser = "opera";
 //        Configuration.browser = "opera";
         Configuration.startMaximized = true;
+
         //Configuration.browserSize = "1920x1080";
         FacebookPage facebookPage = new FacebookPage();
         open(url);
-        facebookPage.typeEmail(email);
-        facebookPage.typePassword(password);
+        facebookPage.typeEmail(finalEmail);
+        facebookPage.typePassword(finalPassword);
         facebookPage.clickSubmit();
         facebookPage.verifyLoggedInAsUser("Cheshi");
         // now we start to update user's profile
         $(byText("Cheshi")).click();
-        $(byText("Edit Profile")).should(exist);
+        $(withText("Edit Profile")).should(exist);
         $(byText("Edit Profile")).click();
 //        $("h3").shouldHave(text("Edit Profile"));
         $(byText("Edit your about info")).click();

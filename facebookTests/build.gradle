@@ -68,40 +68,18 @@ tasks.withType(Test) {
 
 task facebook_tests(type: Test) {
     useJUnitPlatform {
-        includeTags 'facebook'
+        includeTags 'facebook_test'
     }
 }
 task google_tests(type: Test) {
     useJUnitPlatform {
-        includeTags 'google'
+        includeTags 'google_test'
     }
 }
 task yandex_tests(type: Test) {
     useJUnitPlatform {
-        includeTags 'yandex'
+        includeTags 'yandex_test'
     }
 }
 
 
-help {
-    doFirst {
-        println ""
-        println "************************************************************************ "
-        println "***                                                                  *** "
-        println "*** Welcome to                                                       *** "
-        println "*** https://github.com/autotests-cloud/facebook-tests                *** "
-        println "***                                                                  *** "
-        println "*** Requirements for tests:                                          *** "
-        println "*** - idea (here you are)                                            *** "
-        println "*** - start jdk8 or jdk11                                            *** "
-        println "*** - install git                                                    *** "
-        println "*** - install gradle                                                 *** "
-        println "***                                                                  *** "
-        println "*** You can run tests by one of the following commands:              *** "
-        println "*** ./gradlew facebook_tests                                         *** "
-        println "*** ./gradlew google_tests                                           *** "
-        println "***                                                                  *** "
-        println "************************************************************************ "
-        println ""
-    }
-}
