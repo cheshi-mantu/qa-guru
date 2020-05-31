@@ -5,6 +5,7 @@ import com.codeborne.selenide.SelenideWait;
 import helpers.fileReadHelper;
 import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
+import io.qameta.allure.Step;
 import io.qameta.allure.Story;
 import org.junit.Before;
 import org.junit.jupiter.api.*;
@@ -16,6 +17,7 @@ import static com.codeborne.selenide.Selectors.*;
 import static com.codeborne.selenide.Selenide.*;
 
 import static helpers.Environment.*;
+import static io.qameta.allure.Allure.step;
 
 
 @Epic("QA.GURU QA automation course")
@@ -55,6 +57,7 @@ class FacebookTests extends TestBase {
         System.out.println("Password: " + finalPassword);
 
         Configuration.browser = "opera";
+        Configuration.timeout = 6;
 //        we'll use systemProperty "url" defined in helpers.Environment instead of using hardcoded string with web-site address
 //        open("http://facebook.com");
         open(url);
@@ -91,7 +94,8 @@ class FacebookTests extends TestBase {
         facebookPage.verifyLoggedInAsUser("Cheshi");
     }
     @Test
-    @Description("Test for user profile update")
+    @Story("Facebook profile update test")
+    @Description("Open page, click on profile, click on Edit profile, update some item, and check")
     void userProfileUpdate() {
         Configuration.browser = "opera";
 //        Configuration.browser = "edge";
@@ -99,35 +103,71 @@ class FacebookTests extends TestBase {
 //        Configuration.browser = "opera";
 //        Configuration.browser = "opera";
         Configuration.startMaximized = true;
+        Configuration.timeout = 6;
 
         //Configuration.browserSize = "1920x1080";
         FacebookPage facebookPage = new FacebookPage();
-        open(url);
-        facebookPage.typeEmail(finalEmail);
-        facebookPage.typePassword(finalPassword);
-        facebookPage.clickSubmit();
-        facebookPage.verifyLoggedInAsUser("Cheshi");
-        // now we start to update user's profile
-        $(byText("Cheshi")).click();
-        $(withText("Edit Profile")).should(exist);
-        $(byText("Edit Profile")).click();
-//        $("h3").shouldHave(text("Edit Profile"));
-        $(byText("Edit your about info")).click();
-        $(byText("Life Events")).click();
-        $("html").shouldHave(text("Add a life event"));
-        $(byText("Add a life event")).click();
-        $(withText("Relationship")).shouldBe(visible);
-        $(byText("Relationship")).click();
-        $(byText("New Relationship")).click();
-        $(withText("Say something")).click();
-//      $(withText("Say something")).setValue("00223311");
-//      $(byTagName("span")).$(byAttribute("data-text", "true")).setValue("Мы покакунькали");
-        $(getFocusedElement()).setValue("112233445566");
-        $(byText("Share")).click();
-        sleep(1000);
-        $(byText("Timeline")).shouldBe(visible);
-        $(byText("Timeline")).click();
-        $(byTagName("div")).$(byAttribute("role", "feed")).shouldHave(text("112233445566"));
+            step ("Open facebook page via http link", () -> {
+            open(url);
+            facebookPage.typeEmail(finalEmail);
+            facebookPage.typePassword(finalPassword);
+            facebookPage.clickSubmit();
+            facebookPage.verifyLoggedInAsUser("Cheshi");
+        }
+        );
+
+            // now we start to update user's profile
+            step("Enter the user profile", () -> {
+                $(byAttribute("title", "Profile")).click(); // works
+                //$(byText("Cheshi")).click(); // works
+                //$(withText("Edit Profile")).should(exist); // not always works
+                $(byText("Edit Profile")).should(exist);
+//                $(byAttribute("ajaxify","/profile/edit/public/show/")).should(exist); //works
+            }
+            );
+            step("Click Edit Profile", ()->{
+                $(byAttribute("ajaxify","/profile/edit/public/show/")).click(); // works
+                $(withText("Edit Profile")).should(exist);
+                //$(byText("Edit Profile")).click(); // works
+            });
+            step("Edit about info, Life Events link must be available on the page", ()->{
+                $(byText("Edit your about info")).click();
+                $("#medley_header_about").should(exist);
+                $(byLinkText("About")).should(exist);
+                $(byLinkText("Life Events")).should(exist);
+            });
+            step("Go to Life Events and check if 'Add a life event' exists", ()->{
+                $(byLinkText("Life Events")).click();
+                $("html").shouldHave(text("Add a life event"));
+
+            });
+            step("Click on Add a life event", ()->{
+                $(byText("Add a life event")).click();
+                $(byText("Life Events")).should(exist);
+                $(withText("Relationship")).should(exist);
+            });
+//            step("", ()->{});
+//            step("", ()->{});
+//            step("", ()->{});
+//            step("", ()->{});
+//            step("", ()->{});
+
+
+
+
+
+
+//        $(byText("Relationship")).click();
+//        $(byText("New Relationship")).click();
+//        $(withText("Say something")).click();
+////      $(withText("Say something")).setValue("00223311");
+////      $(byTagName("span")).$(byAttribute("data-text", "true")).setValue("Мы покакунькали");
+//        $(getFocusedElement()).setValue("112233445566");
+//        $(byText("Share")).click();
+//        sleep(1000);
+//        $(byText("Timeline")).shouldBe(visible);
+//        $(byText("Timeline")).click();
+//        $(byTagName("div")).$(byAttribute("role", "feed")).shouldHave(text("112233445566"));
     }
 
 }

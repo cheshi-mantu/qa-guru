@@ -29,6 +29,6 @@ public class FacebookPage {
 
     @Step("Verify logged in as {firstName}")
     public void verifyLoggedInAsUser(String firstName) {
-        $(by("data-testid", "left_nav_item_Cheshi Mantu")).shouldHave(text(firstName));
+        $(by("title", "Profile")).shouldHave(text(firstName));
     }
 }
